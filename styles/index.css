@@ -80,3 +80,16 @@ button:hover:disabled {
   position: relative;
   left: 80%;
 }
+
+.js-item-element-expanded {
+  margin-bottom: 20px;
+  border: 1px solid grey;
+  padding: 20px;
+}
+
+
+.js-item-element {
+  margin-bottom: 20px;
+  border: 1px solid grey;
+  padding: 20px;
+}

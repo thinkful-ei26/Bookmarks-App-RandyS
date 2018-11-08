@@ -11,74 +11,91 @@
 <body>
   <div class="container">
     <div class="error-container"></div>
-    <h1>My Bookmarks</h1>
-    <form id="js-bookmark-list-form">
-      <label for="bookmark-list-entry"></label>
-      <button type="submit">Add Bookmark</button>
-    </form>
-      <!-- ADD BOOKMARK HTML -->
-    <div class="container-create-new-bookmark">
-      <form id="js-create-bookmark-form">
-        <label for="bookmark-list-entry">Bookmark Name</label> 
-          <input type="text" name="bookmark-list-entry" class="js-bookmark-list-name-entry" placeholder="...">
-        <label for="bookmark-list-entry">url address:</label> 
-          <input type="text" name="bookmark-list-entry" class="js-bookmark-list-url-entry" placeholder="...">
-        <label for="bookmark-list-entry">Bookmark description:</label> 
-          <input type="text" name="bookmark-list-entry" class="js-bookmark-list-description-entry" placeholder="...">
-        <label for="bookmark-list-entry">Rating:</label>  
-          <input type="text" name="bookmark-list-entry" class="js-bookmark-list-rating-entry" placeholder="1-5">
-        <button type="submit">Create Bookmark</button>
-      </form>
-    </div>
-    <!-- END ADD BOOKMARK HTML -->
-
-    <!-- REGULAR PAGE HTML -->
-      <div>
+    <header role="banner">
+      <h1>My Bookmarks</h1>
+      <form id="js-bookmark-list-form">
+        <label for="bookmark-list-entry"></label>
+        <button type="submit">Add Bookmark</button>
         <label for="js-bookmark-list-filter-entry">Filter by rating:</label>
         <input type="text" name="bookmark-list-filter-entry" class="js-bookmark-list-filter-entry" />
-      </div>
-    </form>
+      </form>
+    </header>
+    
+    <main role="main">
+      <!-- ADD BOOKMARK HTML -->
+      <!-- <section>
+        <div class="container-create-new-bookmark">
+          <header>
+            <h2>Create New Bookmark</h2>
+          </header>
+          <form id="js-create-bookmark-form">
+            <label for="bookmark-list-entry">Bookmark Name</label> 
+              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-name-entry" placeholder="...">
+            <label for="bookmark-list-entry">url address:</label> 
+              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-url-entry" placeholder="...">
+            <label for="bookmark-list-entry">Bookmark description:</label> 
+              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-description-entry" placeholder="...">
+            <label for="bookmark-list-entry">Rating:</label>  
+              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-rating-entry" placeholder="1-5">
+            <button type="submit">Create Bookmark</button>
+          </form>
+        </div>
+      </section> -->
+      <!-- END ADD BOOKMARK HTML -->
+  
     <ul class="bookmark-list js-bookmark-list">
-      <li class="js-item-element" data-item-id="${item.id}">
-        <div class="bookmark-title">
-          <h2>Sample Bookmark</h2> 
-        </div>
-          <div class="bookmark-rating">Rating: 5 stars</div>
-      </li>
-    <!-- END REGULAR PAGE HTML -->
-
-    <!-- EXPANDED ITEM HTML -->
-      <li class="js-item-element js-item-element-expanded" data-item-id="${item.id}">
-        <div class="bookmark-title">
-          <h2>Sample Bookmark</h2> 
-        </div>
-        <div class="bookmark-item-controls">
-          <div class="bookmark-item-url">
-            <p>url: www.example.com</p>
-          </button>
-          <div class="bookmark-item-description">
-            <p> Blah Blah blah Blah Blah blah Blah Blah blah Blah Blah blah Blah Blah blah
-              Blah Blah blahBlah Blah blahBlah Blah blahBlah Blah blahBlah Blah blah
-              Blah Blah blahBlah Blah blahBlah Blah blahBlah Blah blahBlah Blah blah 
-            </p>
-          </div>
-          <div class="bookmark-rating">Rating: 5 stars</div>
-          <button class="bookmark-item-delete js-item-delete">
-            <span class="button-label">Remove this bookmark</span>
-          </button>
-        </div>
-      </li>
-    <!-- END EXPANDED ITEM HTML -->
-    </ul>
-
-    <!-- ERROR MESSAGE HTML -->
-    <section class="error-content">
-        <button id="cancel-error">X</button>
-        <p> >>>>>>${message}<<<<<<<<<<<<<< </p>
+      <!-- REGULAR PAGE HTML -->
+      <section>
+          <li class="js-item-element" data-item-id="${item.id}">
+            <header role="banner">
+              <div class="bookmark-title">
+                <h2>Sample Bookmark</h2> 
+              </div>
+            </header>
+            <div class="bookmark-rating">Rating: 5 stars</div>
+          </li>
       </section>
-    <!-- END ERROR MESSAGE HTML -->
-
+  
+      <!-- END REGULAR PAGE HTML -->
+  
+      <!-- EXPANDED ITEM HTML -->
+      <section>
+        <li class="js-item-element js-item-element-expanded" data-item-id="${item.id}">
+          <header role="header">
+            <div class="bookmark-title">
+              <h2>Sample Bookmark</h2> 
+            </div>
+          </header>
+          <div class="bookmark-item-controls">
+            <div class="bookmark-item-url">
+              <p>url: www.example.com</p>
+            </div>
+            <div class="bookmark-item-description">
+              <p> Blah Blah blah Blah Blah blah Blah Blah blah Blah Blah blah Blah Blah blah
+                Blah Blah blahBlah Blah blahBlah Blah blahBlah Blah blahBlah Blah blah
+                Blah Blah blahBlah Blah blahBlah Blah blahBlah Blah blahBlah Blah blah 
+              </p>
+            </div>
+            <div class="bookmark-rating">Rating: 5 stars</div>
+            <button class="bookmark-item-delete js-item-delete">
+              <span class="button-label">Remove this bookmark</span>
+            </button>
+          </div>
+        </li>
+      </section>
+      <!-- END EXPANDED ITEM HTML -->
+    </ul>
+  
+      <!-- ERROR MESSAGE HTML -->
+      <!-- <section class="error-content">
+          <button id="cancel-error">X</button>
+          <p> >>>>>>${message}<<<<<<<<<<<<<< </p>
+        </section> -->
+      <!-- END ERROR MESSAGE HTML -->
+  
+    </main>
   </div>
+
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="scripts/api.js"></script>
