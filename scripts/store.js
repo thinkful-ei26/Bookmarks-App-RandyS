@@ -33,6 +33,10 @@ const store = (function() {
     this.items = this.items.filter(bookmark => bookmark.id !== id);
   };
 
+  const setFilterRating = function(val) {
+    this.filterRating = val;
+  };
+
   return {
     items,
     error,
@@ -41,6 +45,7 @@ const store = (function() {
     addItem,
     findById,
     findAndDelete,
+    setFilterRating,
     // createItem,
   };
 

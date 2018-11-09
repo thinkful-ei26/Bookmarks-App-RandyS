@@ -3,22 +3,21 @@
 
 const bookmarkList = (function() {
 
-  // function generateError(err) {
-  //   let message = '';
-  //   if (err.responseJSON && err.responseJSON.message) {
-  //     message = err.responseJSON.message;
-  //   } else {
-  //     message = `${err.code} Server Error`; 
-  //   }
+  function generateError(err) {
+    let message = '';
+    if (err.responseJSON && err.responseJSON.message) {
+      message = err.responseJSON.message;
+    } else {
+      message = `${err.code} Server Error`; 
+    }
 
-  //   return `
-  //     <section class="error-content">
-  //       <button id="cancel-error">X</button>
-  //       <p>${message}</p>
-  //     </section>
-  //   `;
-
-  // }
+    return `
+      <section class="error-content">
+        <button id="cancel-error">X</button>
+        <p>${message}</p>
+      </section>
+    `;
+  }
 
   function generateItemElement(item) {
     const expandedClass = store.items.expanded ? 'js-item-element-expanded' : '';
@@ -29,10 +28,10 @@ const bookmarkList = (function() {
     if (item.expanded) { 
       expandedContent = `<div class="bookmark-item-controls">
       <div class="bookmark-item-url">
-        <p>url: ${item.url}</p>
+        <a href='${item.url}'>${item.url}</a>
       </div>
       <div class="bookmark-item-description">
-        <p> ${item.description}
+        <p> ${item.desc}
         </p>
       </div>
       <button class="bookmark-item-delete js-item-delete">
@@ -45,7 +44,7 @@ const bookmarkList = (function() {
               <li class="js-item-element" data-item-id="${item.id}">
               <header role="banner">
                 ${itemTitle}
-                    <div class="bookmark-rating">${item.rating}</div>
+                    <div class="bookmark-rating">Rating: ${item.rating} star(s)</div>
                   </div>
                 </header>
                 ${expandedContent}
@@ -108,17 +107,25 @@ const bookmarkList = (function() {
     // }
 
     console.log('render ran');
-    console.log(`${store.addingBookmark}`);
+    console.log(store.error);
 
     let bookmarks = [...store.items];
 
     
     if (store.addingBookmark) {
-      console.log('in the "addingBookmark" if block')
+      console.log('in the "addingBookmark" if block');
       $('.create-new-bookmark').html(generateNewBookmarkHTML);
-    } else { 
-      console.log('in the "regular" render block')
-      // $('.create-new-bookmark').toggle();
+    } 
+    
+    else if (store.filterRating) {
+      bookmarks = store.items.filter(bookmark => bookmark.rating >= store.filterRating);
+      const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
+      $('.js-bookmark-list').html(bookmarkListItemsString);
+    } 
+    
+    else { 
+      console.log('in the "regular" render block');
+      $('.js-create-bookmark-form').remove();
       const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
       $('.js-bookmark-list').html(bookmarkListItemsString);
     }
@@ -154,7 +161,7 @@ const bookmarkList = (function() {
       let desc = $(event.target).find('[name="bookmark-description-entry"]').val();
       desc === '' ? desc = 'no description yet...' : desc;
       let rating = $(event.target).find('[name="bookmark-rating-entry"] option:selected').val();
-      console.log(`new button clicked`);
+      console.log(desc);
       rating === '' ? rating = 'no rating yet...' : rating;
       store.addingBookmark = false;
       let newBookmark = { title: title, url: url, desc: desc, rating: rating };
@@ -167,7 +174,8 @@ const bookmarkList = (function() {
         (err) => {
           console.log(err);
           store.setError(err);
-          render();
+          const html = generateError(err);
+          $('.js-bookmark-list').html(html);
         }
       );
       // store.createItem(name, url, desc, rating);
@@ -185,9 +193,9 @@ const bookmarkList = (function() {
   function handleExpandBookmark(){
     $('.js-bookmark-list').on('click', '.js-item-element', event => {
       console.log('expand clicked');
-      console.log(event.target)
+      console.log(event.target);
       const id = getIdFromBookmark(event.target);
-      const expandedBookmark = store.findById(id)
+      const expandedBookmark = store.findById(id);
       expandedBookmark.expanded = !expandedBookmark.expanded;
       render();
       // const expandedItem = store.findById(id);
@@ -200,7 +208,7 @@ const bookmarkList = (function() {
     $('.js-bookmark-list').on('click', '.bookmark-item-delete', event => {
       event.preventDefault();
       const id = getIdFromBookmark(event.target);
-      console.log(id)
+      console.log(id);
       api.deleteBookmark(id, 
         () => {
           store.findAndDelete(id);
@@ -219,7 +227,7 @@ const bookmarkList = (function() {
     $('.container').on('click', '.cancel-button', event => {
       event.preventDefault();
       store.addingBookmark = false;
-      $('.create-bookmark-form').attr('hidden="true"')
+      $('.create-bookmark-form').attr('hidden="true"');
       render();
     });
   }
@@ -228,18 +236,37 @@ const bookmarkList = (function() {
     return $(bookmark).closest('.js-item-element').data('item-id');
   }
 
+  function handleFilter() {
+    $('.js-bookmark-filter-entry').change(event=> {
+      event.preventDefault();
+      console.log('dropdown touched');
+      const filterSetting = $('.js-bookmark-filter-entry').val();
+      store.setFilterRating(filterSetting);
+      render();
+    }); 
+  }
+
+  function handleBadSubmissionCancelButton() {
+    $('.container').on('click', '#cancel-error', event => {
+      event.preventDefault();
+      console.log(event);
+      $('.error-content').remove();
+    });
+  }
+
   function bindEventListeners() {
     handleNewItemClicked();
     handleCreateBookmark();
     handleExpandBookmark();
     handleCancelNewBookmarkClicked();
     handleDeleteButtonClicked();
+    handleFilter();
+    handleBadSubmissionCancelButton();
   }
 
   return {
     bindEventListeners: bindEventListeners,
     render: render,
-    // renderAddBookmarkHTML: renderAddBookmarkHTML
   };
 
 }() );

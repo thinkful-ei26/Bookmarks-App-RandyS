@@ -30,12 +30,12 @@ button:hover:disabled {
   max-width: 600px;
   margin: 0 auto;
 }
-/* 
-.create-new-bookmark {
+
+.js-create-bookmark-form {
     margin-bottom: 20px;
     border: 1px solid grey;
     padding: 20px;
-} */
+}
 
 .bookmark-list {
   list-style: none;
@@ -46,6 +46,7 @@ button:hover:disabled {
   margin-bottom: 20px;
   border: 1px solid grey;
   padding: 20px;
+  margin-left: -40px;
 }
 
 .bookmark-item {
@@ -93,10 +94,19 @@ button:hover:disabled {
   border: 1px solid grey;
   padding: 20px;
   list-style: none;
+  margin-left: -40px;
 }
 
 .header-controls {
   margin-bottom: 20px;
   border: 1px solid grey;
   padding: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.bookmark-rating {
+  margin-bottom: 14px;
 }
