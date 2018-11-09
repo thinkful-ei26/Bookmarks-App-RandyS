@@ -40,6 +40,10 @@ button:hover:disabled {
   padding-left: 0;
 }
 
+h1 {
+  margin-top: 108px;
+}
+
 .bookmark-list > li {
   margin-bottom: 20px;
   border: 1px solid grey;
@@ -137,7 +141,7 @@ a:hover {
 }
 
 .header-controls {
-  position: sticky;
+  position: fixed;
   margin-top: 0px;
   margin-bottom: 20px;
   border: 1px solid grey;
@@ -148,6 +152,10 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   list-style: none;
+  width: 100%;
+  top: 0;
+  background-color: #efefef;
+  z-index: 1;
 }
 
 #details-button {
@@ -175,6 +183,7 @@ a:hover {
   border-radius: 4px;
   background-color: #01A8E9;
   color: #0D4D6E;
+  padding: 10px;
 }
 
 .bookmark-item-url {

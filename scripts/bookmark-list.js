@@ -23,6 +23,13 @@ const bookmarkList = (function() {
     const expandedClass = store.items.expanded ? 'js-item-element-expanded' : '';
     let expandedContent = '<div class="bookmark-item-controls"></div';
 
+
+  
+    if (item.rating === null) {
+      item.rating = 'No rating yet';
+    } 
+
+
     let itemTitle = `<span class="bookmark-item ${expandedClass}"><h2>${item.title}</h2></span>`;
 
     if (item.expanded) { 
@@ -48,7 +55,7 @@ const bookmarkList = (function() {
               <li class="js-item-element" data-item-id="${item.id}">
               <header role="banner">
                 ${itemTitle}
-                    <div class="bookmark-rating">Rating: ${item.rating} star(s)</div>
+                    <div class="bookmark-rating">Rating: ${item.rating}</div>
                   <form class="description-expansion">
                     <button class="submit" id="details-button">View Details</button>
                   </form>
@@ -71,22 +78,22 @@ const bookmarkList = (function() {
         <div class="input-groups">
           <div class="input-group">
             <label for="bookmark-name-entry">Bookmark name: </label> 
-            <input type="text" name="bookmark-name-entry" id="js-bookmark-name-entry" placeholder="Required Field">    
+            <input type="text" name="title" id="js-bookmark-name-entry" placeholder="Required Field">    
           </div>
           <hr>
             <div class="input-group">
               <label for="bookmark-url-entry">URL address: </label> 
-              <input type="text" name="bookmark-url-entry" id="js-bookmark-url-entry" placeholder="Required Field">                
+              <input type="text" name="url" id="js-bookmark-url-entry" placeholder="Required Field">                
           </div>
           <hr>
           <div class="input-group">
             <label for="bookmark-description-entry">Bookmark description: </label> 
-            <input type="text" name="bookmark-description-entry" class="js-bookmark-description-entry" placeholder="Optional">
+            <input type="text" name="desc" class="js-bookmark-description-entry" placeholder="Optional">
           </div>
           <hr>
           <div class="input-group">
-            <select for ="rating" name ="bookmark-rating-entry" class ="js-bookmark-rating-entry">
-              <option>Choose a Rating</option>
+            <select for ="rating" name ="rating" class ="js-bookmark-rating-entry">
+              <option selected disabled>Choose a rating</option>
               <option value="1">1 Star</option>
               <option value="2">2 Stars</option>
               <option value="3">3 Stars</option>
@@ -135,14 +142,8 @@ const bookmarkList = (function() {
   const handleCreateBookmark = function(){
     $('.create-new-bookmark').on('submit', event => {
       event.preventDefault();
-      const title = $(event.target).find('[name="bookmark-name-entry"]').val();
-      const url = $(event.target).find('[name="bookmark-url-entry"]').val();
-      let desc = $(event.target).find('[name="bookmark-description-entry"]').val();
-      desc === '' ? desc = 'no description yet...' : desc;
-      let rating = $(event.target).find('[name="bookmark-rating-entry"] option:selected').val();
-      rating === '' ? rating = 'no rating yet...' : rating;
+      const newBookmark = $(event.target).serializeJson();
       store.addingBookmark = false;
-      let newBookmark = { title: title, url: url, desc: desc, rating: rating };
       api.addBookmark(newBookmark, 
         (data) => {
           store.addItem(data);
@@ -222,6 +223,17 @@ const bookmarkList = (function() {
       $('.error-content').remove();
     });
   }
+
+  $.fn.extend({
+    serializeJson: function(){
+      const obj = {};
+      const data = new FormData(this[0]);
+      data.forEach((value,key)=>{
+        obj[key] = value;
+      });
+      return obj;
+    }
+  });
 
   function bindEventListeners() {
     handleNewItemClicked();
