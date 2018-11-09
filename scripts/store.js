@@ -5,6 +5,8 @@ const store = (function() {
   const items = [];
   const addingBookmark = false;
   const error = null;
+  const updatingBookmark = false;
+  const updateBookmarkId = '';
 
   const setError = function(error) {
     this.error = error;
@@ -26,6 +28,17 @@ const store = (function() {
     this.filterRating = val;
   };
 
+  const setBookmarkIsUpdating = function(id, isUpdating) {
+    const bookmark = this.findById(id);
+    bookmark.isUpdating = isUpdating;
+  };
+
+  const findAndUpdate = function(id, newData) {
+    const bookmark = this.findById(id);
+    Object.assign(bookmark, newData);
+  };
+    
+
   return {
     items,
     error,
@@ -35,6 +48,10 @@ const store = (function() {
     findById,
     findAndDelete,
     setFilterRating,
+    setBookmarkIsUpdating,
+    findAndUpdate,
+    updatingBookmark,
+    updateBookmarkId,
   };
 
 }() );
