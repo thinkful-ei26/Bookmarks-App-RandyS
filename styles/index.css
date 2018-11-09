@@ -30,12 +30,12 @@ button:hover:disabled {
   max-width: 600px;
   margin: 0 auto;
 }
-
-.container-create-new-bookmark {
+/* 
+.create-new-bookmark {
     margin-bottom: 20px;
     border: 1px solid grey;
     padding: 20px;
-}
+} */
 
 .bookmark-list {
   list-style: none;
@@ -89,6 +89,13 @@ button:hover:disabled {
 
 
 .js-item-element {
+  margin-bottom: 20px;
+  border: 1px solid grey;
+  padding: 20px;
+  list-style: none;
+}
+
+.header-controls {
   margin-bottom: 20px;
   border: 1px solid grey;
   padding: 20px;

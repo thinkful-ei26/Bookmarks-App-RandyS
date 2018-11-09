@@ -10,42 +10,63 @@
 
 <body>
   <div class="container">
-    <div class="error-container"></div>
+    <div class="error-container">
+    </div>
     <header role="banner">
       <h1>My Bookmarks</h1>
+    </header>
+    
+    <section class="header-controls">
       <form id="js-bookmark-list-form">
         <label for="bookmark-list-entry"></label>
         <button type="submit">Add Bookmark</button>
-        <label for="js-bookmark-list-filter-entry">Filter by rating:</label>
-        <input type="text" name="bookmark-list-filter-entry" class="js-bookmark-list-filter-entry" />
       </form>
-    </header>
-    
-    <main role="main">
+      <select for ="js-bookmark-list-filter-entry" name ="bookmark-filter-entry" class ="js-bookmark-filter-entry">
+        <option>Filter by Rating</option>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+      </select>
+    </section>
+  
+    <!-- <main role="main"> -->
+    <section class="create-new-bookmark"> 
+    </section>
       <!-- ADD BOOKMARK HTML -->
-      <!-- <section>
-        <div class="container-create-new-bookmark">
-          <header>
-            <h2>Create New Bookmark</h2>
-          </header>
-          <form id="js-create-bookmark-form">
-            <label for="bookmark-list-entry">Bookmark Name</label> 
-              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-name-entry" placeholder="...">
-            <label for="bookmark-list-entry">url address:</label> 
-              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-url-entry" placeholder="...">
-            <label for="bookmark-list-entry">Bookmark description:</label> 
-              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-description-entry" placeholder="...">
-            <label for="bookmark-list-entry">Rating:</label>  
-              <input type="text" name="bookmark-list-entry" class="js-bookmark-list-rating-entry" placeholder="1-5">
-            <button type="submit">Create Bookmark</button>
+            <!-- <header>
+              <h2>Create New Bookmark</h2>
+            </header>
+            <div class="input-groups">
+              <div class="input-group">
+                <label for="bookmark-name-entry">Bookmark Name</label> 
+                <input type="text" name="bookmark-name-entry" id="js-bookmark-name-entry" placeholder="Required Field">    
+              </div>
+                <div class="input-group">
+                  <label for="bookmark-url-entry">url address:</label> 
+                  <input type="text" name="bookmark-url-entry" id="js-bookmark-url-entry" placeholder="Required Field">                
+              </div>
+              <div class="input-group">
+                <label for="bookmark-description-entry">Bookmark description:</label> 
+                <input type="text" name="bookmark-description-entry" class="js-bookmark-description-entry" placeholder="Optional">
+              </div>
+              <div class="input-group">
+                <label for="bookmark-rating-entry">Rating (1-5):</label>  
+                <input type="text" name="bookmark-rating-entry" class="js-bookmark-rating-entry" placeholder="Optional">      
+              </div>
+            </div>
+            <div class="input-group">
+              <input type="submit">Create Bookmark</button>
+            </div>
           </form>
-        </div>
-      </section> -->
+        </section>  -->
       <!-- END ADD BOOKMARK HTML -->
   
-    <ul class="bookmark-list js-bookmark-list">
+    <ul class="js-bookmark-list">
+    </ul>
       <!-- REGULAR PAGE HTML -->
-      <section>
+      <!-- <section>
           <li class="js-item-element" data-item-id="${item.id}">
             <header role="banner">
               <div class="bookmark-title">
@@ -54,12 +75,12 @@
             </header>
             <div class="bookmark-rating">Rating: 5 stars</div>
           </li>
-      </section>
+      </section> -->
   
       <!-- END REGULAR PAGE HTML -->
   
       <!-- EXPANDED ITEM HTML -->
-      <section>
+      <!-- <section>
         <li class="js-item-element js-item-element-expanded" data-item-id="${item.id}">
           <header role="header">
             <div class="bookmark-title">
@@ -82,9 +103,8 @@
             </button>
           </div>
         </li>
-      </section>
+      </section> -->
       <!-- END EXPANDED ITEM HTML -->
-    </ul>
   
       <!-- ERROR MESSAGE HTML -->
       <!-- <section class="error-content">
@@ -93,7 +113,7 @@
         </section> -->
       <!-- END ERROR MESSAGE HTML -->
   
-    </main>
+    <!-- </main> -->
   </div>
 
 
