@@ -1,5 +1,5 @@
 'use strict';
-/*global store, api */
+/*global store, api, $ */
 
 const bookmarkList = (function() {
 
@@ -12,7 +12,7 @@ const bookmarkList = (function() {
     }
 
     return `
-      <section class="error-content">
+      <section role="alert" class="error-content">
         <button id="cancel-error">X</button>
         <p>${message}</p>
       </section>
@@ -26,18 +26,22 @@ const bookmarkList = (function() {
     let itemTitle = `<span class="bookmark-item ${expandedClass}"><h2>${item.title}</h2></span>`;
 
     if (item.expanded) { 
-      expandedContent = `<div class="bookmark-item-controls">
-      <div class="bookmark-item-url">
-        <a href='${item.url}'>${item.url}</a>
-      </div>
+      expandedContent = `
+      <div class="bookmark-item-controls">
       <div class="bookmark-item-description">
-        <p> ${item.desc}
-        </p>
+        <p>${item.desc}</p>
       </div>
-      <button class="bookmark-item-delete js-item-delete">
-        <span class="button-label">Remove this bookmark</span>
-      </button>
-    </div>`;
+      <br>
+      <div class="bookmark-item-url">
+        <a href='${item.url}'>Visit ${item.title}</a>
+      </div>
+        <form class="bookmark-item-delete js-item-delete">
+          <button class="button-label" id="delete-button">Remove this bookmark</button>
+        </form>
+        <form class="hide-details">
+          <button class="button-label" id="hide-details-button">Hide Details</button>
+        </form>
+      </div>`;
     }
 
     return `
@@ -45,7 +49,9 @@ const bookmarkList = (function() {
               <header role="banner">
                 ${itemTitle}
                     <div class="bookmark-rating">Rating: ${item.rating} star(s)</div>
-                  </div>
+                  <form class="description-expansion">
+                    <button class="submit" id="details-button">View Details</button>
+                  </form>
                 </header>
                 ${expandedContent}
               </li>`;
@@ -53,7 +59,6 @@ const bookmarkList = (function() {
 
   function generateBookmarkItemsString(bookmarksList) {
     const items = bookmarksList.map((item) => generateItemElement(item));
-    console.log('hello from generateBookmarkItemsString function');
     return items.join('');
   }
 
@@ -65,17 +70,20 @@ const bookmarkList = (function() {
         </header>
         <div class="input-groups">
           <div class="input-group">
-            <label for="bookmark-name-entry">Bookmark Name</label> 
+            <label for="bookmark-name-entry">Bookmark name: </label> 
             <input type="text" name="bookmark-name-entry" id="js-bookmark-name-entry" placeholder="Required Field">    
           </div>
+          <hr>
             <div class="input-group">
-              <label for="bookmark-url-entry">url address:</label> 
+              <label for="bookmark-url-entry">URL address: </label> 
               <input type="text" name="bookmark-url-entry" id="js-bookmark-url-entry" placeholder="Required Field">                
           </div>
+          <hr>
           <div class="input-group">
-            <label for="bookmark-description-entry">Bookmark description:</label> 
+            <label for="bookmark-description-entry">Bookmark description: </label> 
             <input type="text" name="bookmark-description-entry" class="js-bookmark-description-entry" placeholder="Optional">
           </div>
+          <hr>
           <div class="input-group">
             <select for ="rating" name ="bookmark-rating-entry" class ="js-bookmark-rating-entry">
               <option>Choose a Rating</option>
@@ -87,6 +95,7 @@ const bookmarkList = (function() {
             </select>
           </div>
         </div>
+        <hr>
         <div class="input-group">
           <input type="submit"></button>
         </div>
@@ -99,32 +108,16 @@ const bookmarkList = (function() {
   }
        
   function render() {
-    // if (store.error) {
-    //   const el = generateError(store.error);
-    //   $('.error-container').html(el);
-    // } else {
-    //   $('.error-container').empty();
-    // }
-
-    console.log('render ran');
-    console.log(store.error);
 
     let bookmarks = [...store.items];
-
     
     if (store.addingBookmark) {
-      console.log('in the "addingBookmark" if block');
       $('.create-new-bookmark').html(generateNewBookmarkHTML);
-    } 
-    
-    else if (store.filterRating) {
+    } else if (store.filterRating) {
       bookmarks = store.items.filter(bookmark => bookmark.rating >= store.filterRating);
       const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
       $('.js-bookmark-list').html(bookmarkListItemsString);
-    } 
-    
-    else { 
-      console.log('in the "regular" render block');
+    } else { 
       $('.js-create-bookmark-form').remove();
       const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
       $('.js-bookmark-list').html(bookmarkListItemsString);
@@ -132,28 +125,14 @@ const bookmarkList = (function() {
   }
 
   function handleNewItemClicked() {
-    // event listener for add new item button
     $('#js-bookmark-list-form').click(event => {
       event.preventDefault();
-      console.log('add button pressed');
       store.addingBookmark = true;
-      // $('.create-new-bookmark').attr('hidden', 'false')
-      console.log(store.addingBookmark);
       render();
     });
   }
 
-  // function renderAddBookmarkHTML() {
-  //   if(store.addingBookmark){
-  //     $('.js-create-bookmark-form').html(generateNewBookmarkHTML());
-  //   }
-  //   else{
-  //     $('.js-create-bookmark-form').html('');
-  //   }
-  // }
-
   const handleCreateBookmark = function(){
-    //event listener for submit new bookmark button
     $('.create-new-bookmark').on('submit', event => {
       event.preventDefault();
       const title = $(event.target).find('[name="bookmark-name-entry"]').val();
@@ -161,54 +140,46 @@ const bookmarkList = (function() {
       let desc = $(event.target).find('[name="bookmark-description-entry"]').val();
       desc === '' ? desc = 'no description yet...' : desc;
       let rating = $(event.target).find('[name="bookmark-rating-entry"] option:selected').val();
-      console.log(desc);
       rating === '' ? rating = 'no rating yet...' : rating;
       store.addingBookmark = false;
       let newBookmark = { title: title, url: url, desc: desc, rating: rating };
       api.addBookmark(newBookmark, 
         (data) => {
           store.addItem(data);
-          $('.create-new-bookmark').attr('hidden');
           render();
         },
         (err) => {
-          console.log(err);
           store.setError(err);
           const html = generateError(err);
           $('.js-bookmark-list').html(html);
         }
       );
-      // store.createItem(name, url, desc, rating);
-      // console.log(store.items);
-      // // renderAddBookmarkHTML();
-      // render();
     });
   };
 
-  // generateError();
-  // generateItemElement();
-  // generateBookmarkItemsString();
-  // generateNewBookmarkHTML();
-
   function handleExpandBookmark(){
-    $('.js-bookmark-list').on('click', '.js-item-element', event => {
-      console.log('expand clicked');
-      console.log(event.target);
+    $('.js-bookmark-list').on('click', '.description-expansion', event => {
       const id = getIdFromBookmark(event.target);
       const expandedBookmark = store.findById(id);
       expandedBookmark.expanded = !expandedBookmark.expanded;
       render();
-      // const expandedItem = store.findById(id);
-      // expandedItem['expanded'] = true;
+      $('.description-expansion').toggle();
+    });
+  }
 
+  function handleHideBookmark(){
+    $('.js-bookmark-list').on('click', '.hide-details', event => {
+      const id = getIdFromBookmark(event.target);
+      const expandedBookmark = store.findById(id);
+      expandedBookmark.expanded = !expandedBookmark.expanded;
+      render();
     });
   }
 
   function handleDeleteButtonClicked() {
-    $('.js-bookmark-list').on('click', '.bookmark-item-delete', event => {
+    $('.js-bookmark-list').on('submit', '.bookmark-item-delete', event => {
       event.preventDefault();
       const id = getIdFromBookmark(event.target);
-      console.log(id);
       api.deleteBookmark(id, 
         () => {
           store.findAndDelete(id);
@@ -239,7 +210,6 @@ const bookmarkList = (function() {
   function handleFilter() {
     $('.js-bookmark-filter-entry').change(event=> {
       event.preventDefault();
-      console.log('dropdown touched');
       const filterSetting = $('.js-bookmark-filter-entry').val();
       store.setFilterRating(filterSetting);
       render();
@@ -249,7 +219,6 @@ const bookmarkList = (function() {
   function handleBadSubmissionCancelButton() {
     $('.container').on('click', '#cancel-error', event => {
       event.preventDefault();
-      console.log(event);
       $('.error-content').remove();
     });
   }
@@ -262,11 +231,12 @@ const bookmarkList = (function() {
     handleDeleteButtonClicked();
     handleFilter();
     handleBadSubmissionCancelButton();
+    handleHideBookmark();
   }
 
   return {
-    bindEventListeners: bindEventListeners,
-    render: render,
+    bindEventListeners,
+    render,
   };
 
 }() );

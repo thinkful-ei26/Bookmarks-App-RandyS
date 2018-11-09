@@ -18,10 +18,6 @@ button:hover:disabled {
   cursor: default;
 }
 
-.hidden {
-  display: none;
-}
-
 #bookmark-list-item {
   width: 250px;
 }
@@ -32,9 +28,11 @@ button:hover:disabled {
 }
 
 .js-create-bookmark-form {
-    margin-bottom: 20px;
-    border: 1px solid grey;
-    padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid grey;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 1px lightgrey;
 }
 
 .bookmark-list {
@@ -49,24 +47,19 @@ button:hover:disabled {
   margin-left: -40px;
 }
 
-.bookmark-item {
-  display: block;
-  color: grey;
-  font-style: italic;
-  font-size: 20px;
-  margin-bottom: 15px;
-}
-
 .bookmark-item__checked {
   text-decoration: line-through;
 }
 
 .error-content {
-  position: fixed;
-  top: 15px;
-  right: 20px;
-  border: 2px solid red;
-  background-color: lightsalmon;
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    border: 2px solid red;
+    background-color: white;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
 }
 
 .error-content p {
@@ -80,6 +73,9 @@ button:hover:disabled {
   color: white;
   position: relative;
   left: 80%;
+  left: 54%;
+  bottom: 18px;
+  
 }
 
 .js-item-element-expanded {
@@ -91,11 +87,28 @@ button:hover:disabled {
 
 .js-item-element {
   margin-bottom: 20px;
-  border: 1px solid grey;
+  border: 1px solid lightgrey;
   padding: 20px;
   list-style: none;
   margin-left: -40px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 2px lightgrey;
 }
+
+.js-item-element h2 {
+  color: #2F2F2F;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.js-item-element p {
+  margin-top: 0px;
+  color: #2F2F2F;
+  font-style: italic;
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+
 
 .header-controls {
   margin-bottom: 20px;
@@ -105,8 +118,87 @@ button:hover:disabled {
 
 a {
   text-decoration: none;
+  color: #2F2F2F;
+}
+
+a:visited {
+  color: #2F2F2F;
+}
+
+a:hover {
+  color: lightgrey
 }
 
 .bookmark-rating {
   margin-bottom: 14px;
+  color: grey;
+  font-style: italic;
+  font-size: 14px
 }
+
+.header-controls {
+  position: sticky;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border: 1px solid grey;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px lightgrey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+}
+
+#details-button {
+  border: none;
+  color: #2F2F2F;
+  font-size: 12px;
+  font-style: italic;
+}
+
+#hide-details-button {
+  border: none;
+  color: #2F2F2F;
+  font-size: 12px;
+  font-style: italic;
+}
+
+#delete-button {
+  border-radius: 4px;
+  background-color: #efefef;
+  opacity: .9;
+  color: #2F2F2F
+}
+
+#add-bookmark-button {
+  border-radius: 4px;
+  background-color: #01A8E9;
+  color: #0D4D6E;
+}
+
+.bookmark-item-url {
+  margin-bottom: 8px;
+}
+
+input {
+  height: 24px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+  color: #2F2F2F
+}
+
+.input-group label {
+  font-style: italic;
+}
+
+hr {
+  border-width: .5px;
+}
+
+#pro {
+  color: #01A8E9;
+}
+

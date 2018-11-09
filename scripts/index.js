@@ -9,6 +9,3 @@ $(document).ready(function() {
     bookmarkList.render();
   });
 });
-
-//render bookmarks
-//API GET
