@@ -6,13 +6,16 @@ const store = (function() {
   const addingBookmark = false;
   const error = null;
   const updatingBookmark = false;
-  const updateBookmarkId = '';
+  const bookmarkToUpdate = '';
 
   const setError = function(error) {
     this.error = error;
   };
   
   const addItem = function(item) {
+    if (item.rating === null) {
+      item.rating = 'No rating yet...'
+    }
     this.items.push(item);
   };
 
@@ -51,7 +54,7 @@ const store = (function() {
     setBookmarkIsUpdating,
     findAndUpdate,
     updatingBookmark,
-    updateBookmarkId,
+    bookmarkToUpdate,
   };
 
 }() );
